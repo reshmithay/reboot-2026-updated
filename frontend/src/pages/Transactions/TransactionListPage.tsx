@@ -16,7 +16,7 @@ const TransactionListPage: React.FC = () => {
   const [apiError, setApiError] = useState<string | null>(null);
   const [totalTransactions, setTotalTransactions] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(10);
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<TransactionFilters>({});
   const [screeningHash, setScreeningHash] = useState<string | null>(null);
@@ -449,6 +449,10 @@ const TransactionListPage: React.FC = () => {
             totalItems={totalTransactions}
             pageSize={pageSize}
             onPageChange={setCurrentPage}
+            onPageSizeChange={(size) => {
+              setPageSize(size);
+              setCurrentPage(1); // Reset to page 1 when changing page size
+            }}
           />
         </div>
       </div>

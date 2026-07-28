@@ -17,12 +17,14 @@ interface DataTableProps<T> {
   className?: string;
   emptyMessage?: string;
   loading?: boolean;
-  pagination?: false | {
-    current?: number;
-    pageSize?: number;
-    total?: number;
-    onChange?: (page: number, pageSize: number) => void;
-  };
+  pagination?:
+    | false
+    | {
+        current?: number;
+        pageSize?: number;
+        total?: number;
+        onChange?: (page: number, pageSize: number) => void;
+      };
 }
 
 export function DataTable<T extends Record<string, any>>({
@@ -41,9 +43,7 @@ export function DataTable<T extends Record<string, any>>({
     title: col.header,
     width: col.width,
     className: col.className,
-    render: col.render
-      ? (_: any, record: T) => col.render!(record)
-      : undefined,
+    render: col.render ? (_: any, record: T) => col.render!(record) : undefined,
   }));
 
   const tableProps: TableProps<T> = {
@@ -61,14 +61,18 @@ export function DataTable<T extends Record<string, any>>({
     locale: {
       emptyText: <Empty description={emptyMessage} />,
     },
-    pagination: pagination === false ? false : {
-      current: pagination?.current || 1,
-      pageSize: pagination?.pageSize || 10,
-      total: pagination?.total || data.length,
-      onChange: pagination?.onChange,
-      showSizeChanger: true,
-      showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-    },
+    pagination:
+      pagination === false
+        ? false
+        : {
+            current: pagination?.current || 1,
+            pageSize: pagination?.pageSize || 10,
+            total: pagination?.total || data.length,
+            onChange: pagination?.onChange,
+            showSizeChanger: true,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} of ${total} items`,
+          },
   };
 
   return <Table {...tableProps} />;
@@ -82,6 +86,7 @@ interface PaginationProps {
   pageSize: number;
   onPageChange: (page: number) => void;
   className?: string;
+  onPageSizeChange?: (pageSize: number) => void;
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
@@ -89,17 +94,28 @@ export const Pagination: React.FC<PaginationProps> = ({
   totalItems,
   pageSize,
   onPageChange,
+  onPageSizeChange,
   className,
 }) => {
   return (
-    <div className={className} style={{ display: "flex", justifyContent: "flex-end", padding: "16px 0" }}>
+    <div
+      className={className}
+      style={{ display: "flex", justifyContent: "flex-end", padding: "16px 0" }}
+    >
       <AntPagination
         current={currentPage}
         total={totalItems}
         pageSize={pageSize}
         onChange={onPageChange}
         showSizeChanger
-        showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+        onShowSizeChange={(_current, size) => {
+          if (onPageSizeChange) {
+            onPageSizeChange(size);
+          }
+        }}
+        showTotal={(total, range) =>
+          `${range[0]}-${range[1]} of ${total} items`
+        }
       />
     </div>
   );

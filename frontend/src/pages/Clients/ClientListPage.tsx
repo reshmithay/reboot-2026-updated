@@ -12,7 +12,7 @@ const ClientListPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<{
     risk_tier?: string;
@@ -340,6 +340,10 @@ const ClientListPage: React.FC = () => {
             totalItems={total}
             pageSize={pageSize}
             onPageChange={setCurrentPage}
+            onPageSizeChange={(size) => {
+              setPageSize(size);
+              setCurrentPage(1); // Reset to page 1 when changing page size
+            }}
           />
         </div>
         </>
