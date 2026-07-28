@@ -130,8 +130,8 @@ class AnomalyOrchestrator:
         aggregated = self._aggregate_results(transaction_data, results, context)
         
         # Store results
-        if aggregated.get("is_anomaly"):
-            await self._store_results(aggregated)
+        # if aggregated.get("is_anomaly"):
+        await self._store_results(aggregated)
         
         return self._convert_to_anomaly_result_format(aggregated, transaction_data)
     
@@ -303,7 +303,8 @@ class AnomalyOrchestrator:
             except Exception as e:
                 logger.error(f"Failed to store detection results in BigQuery: {e}")
         
-        if self.anomaly_result_service and aggregated.get("is_anomaly"):
+        # if self.anomaly_result_service and aggregated.get("is_anomaly"):
+        if self.anomaly_result_service:
             try:
                 tx_summary = aggregated.get("transaction_summary", {})
                 transaction_data = {

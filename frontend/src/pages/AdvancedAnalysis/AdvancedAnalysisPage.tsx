@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ANALYSIS_URL = "https://blockchain-analytics-ui-1083336257191.us-central1.run.app/";
+const ANALYSIS_URL ="https://blockchain-ui-working-1083336257191.us-central1.run.app";
 
 const AdvancedAnalysisPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
