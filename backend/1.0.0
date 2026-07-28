@@ -1,0 +1,6 @@
+Looking in indexes: https://ic1w8_ja:****@artefacts.lloydsbanking.cloud/repository/pypi-osg-proxy/simple/
+Collecting python-dotenv
+  Using cached https://artefacts.lloydsbanking.cloud/repository/pypi-osg-proxy/packages/python-dotenv/1.2.2/python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+Downloading https://artefacts.lloydsbanking.cloud/repository/pypi-osg-proxy/packages/python-dotenv/1.2.2/python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+Installing collected packages: python-dotenv
+Successfully installed python-dotenv-1.2.2

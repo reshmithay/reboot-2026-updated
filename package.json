@@ -1,0 +1,44 @@
+{
+  "name": "blockchain-anomaly-ai",
+  "version": "1.0.0",
+  "description": "Real-time blockchain anomaly detection with AI-powered narratives — Reboot 2026",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "blockchain"
+  ],
+  "scripts": {
+    "bootstrap": "npm run install:python && npm run install:frontend && npm run install:blockchain",
+    "install:python": "npm run install:backend && npm run install:llm",
+    "install:backend": "cd backend && python -m pip install -r requirements.txt",
+    "install:llm": "cd llm-narrative-server && python -m pip install -r requirements.txt",
+    "install:frontend": "npm install --workspace=frontend",
+    "install:blockchain": "npm install --workspace=blockchain",
+    "dev": "concurrently -n backend,llm,frontend -c cyan,green,magenta \"npm run backend\" \"npm run llm-server\" \"npm run frontend\"",
+    "backend": "cd backend && uvicorn app.main:app --reload --port 8000",
+    "llm-server": "cd llm-narrative-server && uvicorn app.main:app --reload --port 8001",
+    "frontend": "npm run dev --workspace=frontend",
+    "blockchain:compile": "npm run compile --workspace=blockchain",
+    "blockchain:deploy": "npm run deploy --workspace=blockchain",
+    "blockchain:test": "npm run test --workspace=blockchain",
+    "lint": "npm run lint --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0"
+  },
+  "lint-staged": {
+    "frontend/src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "backend/**/*.py": [
+      "black",
+      "flake8"
+    ],
+    "blockchain/contracts/**/*.sol": [
+      "solhint"
+    ]
+  }
+}
