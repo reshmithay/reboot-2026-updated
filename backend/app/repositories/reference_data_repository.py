@@ -5,6 +5,7 @@ from typing import Dict, Any, List, Set, Optional
 from datetime import datetime, timedelta
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import DBAPIError
 
 from app.utilities.logger.logger import get_logger
 
@@ -72,6 +73,9 @@ class PostgresReferenceDataRepository:
                     "kycStatus": row[16],
                     "amlStatus": row[17]
                 }
+        except DBAPIError as e:
+            await self.session.rollback()
+            logger.error(f"Failed to fetch client registry from PostgreSQL: {e}")
         except Exception as e:
             logger.error(f"Failed to fetch client registry from PostgreSQL: {e}")
         
@@ -132,6 +136,9 @@ class PostgresReferenceDataRepository:
                     "kycStatus": row[16],
                     "amlStatus": row[17]
                 }
+        except DBAPIError as e:
+            await self.session.rollback()
+            logger.error(f"Failed to fetch client registry by ID from PostgreSQL: {e}")
         except Exception as e:
             logger.error(f"Failed to fetch client registry by ID from PostgreSQL: {e}")
         
@@ -183,6 +190,10 @@ class PostgresReferenceDataRepository:
                 })
             
             return transactions
+        except DBAPIError as e:
+            await self.session.rollback()
+            logger.error(f"Failed to fetch recent transactions from PostgreSQL: {e}")
+            return []
         except Exception as e:
             logger.error(f"Failed to fetch recent transactions from PostgreSQL: {e}")
             return []
@@ -213,6 +224,9 @@ class PostgresReferenceDataRepository:
             
             if row and row[0]:
                 return float(row[0])
+        except DBAPIError as e:
+            await self.session.rollback()
+            logger.error(f"Failed to fetch account balance from PostgreSQL: {e}")
         except Exception as e:
             logger.error(f"Failed to fetch account balance from PostgreSQL: {e}")
         
@@ -245,6 +259,10 @@ class PostgresReferenceDataRepository:
                 }
             
             return anomaly_master
+        except DBAPIError as e:
+            await self.session.rollback()
+            logger.error(f"Failed to fetch anomaly master from PostgreSQL: {e}")
+            return self._get_default_anomaly_master()
         except Exception as e:
             logger.error(f"Failed to fetch anomaly master from PostgreSQL: {e}")
             return self._get_default_anomaly_master()
