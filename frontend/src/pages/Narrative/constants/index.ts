@@ -1,0 +1,2 @@
+export { LANGUAGES, RISK_INDICATORS, RISK_CONTRIBUTION, INVESTIGATION_TIMELINE, RECOMMENDED_ACTIONS } from "./narrativeData";
+export { NARRATIVE_TRANSLATIONS } from "./narrativeTranslations";
