@@ -328,6 +328,7 @@ const ClientListPage: React.FC = () => {
           <DataTable
             data={clients}
             columns={columns}
+            pagination={false}
             onRowClick={handleRowClick}
             emptyMessage="No clients found. Try adjusting your search or filters."
           />

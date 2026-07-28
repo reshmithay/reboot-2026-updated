@@ -434,6 +434,7 @@ const TransactionListPage: React.FC = () => {
             data={transactions}
             columns={columns}
             onRowClick={handleRowClick}
+            pagination={false}
             emptyMessage={
               apiError
                 ? "Server unavailable. Start backend to load transactions."

@@ -717,6 +717,7 @@ const AnomalyListPage: React.FC = () => {
           <DataTable
             data={anomalies}
             columns={columns}
+            pagination={false}
             onRowClick={handleRowClick}
             emptyMessage="No anomalies found. Try adjusting your filters."
           />
